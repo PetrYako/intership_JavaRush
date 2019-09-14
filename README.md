@@ -1,16 +1,16 @@
 # JavaRushIntership
-Реализованы следующие возможности:
-1. получение списка всех существующих кораблей;
-2. создание нового корабля;
-3. редактирование характеристик существующего корабля;
-4. удаление корабля;
-5. получение корабля по id;
-6. получение отфильтрованного списка кораблей в соответствии с переданными фильтрами;
-7. получение количества кораблей, которые соответствуют фильтрам(REST API).
+The following functions are made:
+1. Get all existing ships;
+2. Create new ship;
+3. Update ship;
+4. Delete ship;
+5. Get ship by ID;
+6. Get list of ships by filter;
+7. Get amount of ships.
 
-Для создание сервиса были использованы следующие технологии:
-1. Maven (для сборки проекта);
-2. Tomcat 9 (для запуска своего приложения);
+Used the next technologies:
+1. Maven (for project assembly);
+2. Tomcat 9 (for start servise);
 3. Spring;
 4. Spring Data JPA;
-5. MySQL (база данных (БД)).
+5. MySQL (Database).
