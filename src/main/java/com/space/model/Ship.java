@@ -1,47 +1,60 @@
 package com.space.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 @Entity
-@Table(name = "Ship")
+@Table(name = "ship")
 public class Ship {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private long id;
 
-    @JoinColumn(name = "name")
+    @Column(name = "name")
+    @NotBlank
     private String name;
 
-    @JoinColumn(name = "planet")
+    @Column(name = "planet")
+    @NotBlank
     private String planet;
 
-    @JoinColumn(name = "shipType")
+    @Column(name = "shipType")
     @Enumerated(value = EnumType.STRING)
     private ShipType shipType;
 
-    @JoinColumn(name = "prodDate")
-    @Temporal(TemporalType.DATE)
+    @Column(name = "prodDate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date prodDate;
 
-    @JoinColumn(name = "isUsed")
+    @Column(name = "isUsed")
+    @NotNull
     private boolean isUsed;
 
-    @JoinColumn(name = "speed")
+    @Column(name = "speed")
+    @NotNull
     private double speed;
 
-    @JoinColumn(name = "crewSize")
+    @Column(name = "crewSize")
+    @NotNull
     private int crewSize;
 
-    @JoinColumn(name = "rating")
+    @Column(name = "rating")
+    @NotNull
     private double rating;
 
     public Ship() {}
 
-    public Ship(String name, String planet, ShipType shipType, Date prodDate, double speed, int crewSize) {
+    public Ship(Integer id, String name, String planet, ShipType shipType, Date prodDate, double speed, int crewSize) {
+        this.id = id;
         this.name = name;
         this.planet = planet;
         this.shipType = shipType;
@@ -142,5 +155,27 @@ public class Ship {
                 ", crewSize=" + crewSize +
                 ", rating=" + rating +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ship ship = (Ship) o;
+        return id == ship.id &&
+                isUsed == ship.isUsed &&
+                Double.compare(ship.speed, speed) == 0 &&
+                crewSize == ship.crewSize &&
+                Double.compare(ship.rating, rating) == 0 &&
+                name.equals(ship.name) &&
+                planet.equals(ship.planet) &&
+                shipType == ship.shipType &&
+                prodDate.equals(ship.prodDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
