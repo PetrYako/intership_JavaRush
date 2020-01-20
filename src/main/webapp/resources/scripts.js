@@ -150,8 +150,12 @@ function processSearch(root, currentPage) {
         isUsed = false;
     }
     let sufix = "?";
+
+    sufix += "pageNumber=" + (+currentPage - 1);
+    sufix += "&pageSize=" + +limit;
+
     if (name !== "") {
-        sufix += "name=" + name;
+        sufix += "&name=" + name;
     }
     if (planet !== "") {
         sufix += "&planet=" + planet;
@@ -186,9 +190,6 @@ function processSearch(root, currentPage) {
     if (ratingMax !== "") {
         sufix += "&maxRating=" + ratingMax;
     }
-
-    sufix += "&pageNumber=" + (+currentPage - 1);
-    sufix += "&pageSize=" + +limit;
 
     console.log(limit);
 
@@ -406,7 +407,7 @@ function processCreate(root) {
     body.speed = document.getElementById("inputSpeedNew").value;
     body.crewSize = document.getElementById("inputCrewSizeNew").value;
 
-    let response = post(root + "rest/ships/", JSON.stringify(body));
+    let response = post(root + "/rest/ships/", JSON.stringify(body));
     if (response.status === 200) {
         document.getElementById("inputNameNew").value = "";
         document.getElementById("inputPlanetNew").value = "";

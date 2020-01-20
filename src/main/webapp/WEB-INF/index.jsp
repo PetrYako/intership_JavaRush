@@ -15,7 +15,7 @@
     </script>
 
 </head>
-<body onload="loadContent('http://localhost:8080','', 1);">
+<body onload="loadContent('${pageContext.request.contextPath}','?pageNumber=0&pageSize=3&order=ID', 0);">
 <div class="container">
 
 
@@ -45,7 +45,7 @@
     <h1 style="text-align: center; margin-top: 50px; margin-bottom: 30px">Spaceship rating</h1>
 
         <label style="float: left ; margin-right: 10px" for="order">Order by: </label>
-        <select style="float: left" onchange="processSearch('http://localhost:8080', 1)" style="margin-left: 5px" id="order"
+        <select style="float: left" onchange="processSearch('${pageContext.request.contextPath}', 1)" style="margin-left: 5px" id="order"
                 class="form-control-sm">
             <option selected>Id</option>
             <option>Speed</option>
@@ -54,7 +54,7 @@
         </select>
 
 
-        <select style="float: right" onchange="processSearch('http://localhost:8080', 1)" style="margin-left: 5px" id="limit"
+        <select style="float: right" onchange="processSearch('${pageContext.request.contextPath}', 1)" style="margin-left: 5px" id="limit"
                 class="form-control-sm">
             <option>1</option>
             <option selected>3</option>
@@ -150,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <button type="button" onclick="processCreate('http://localhost:8080/')" class="btn btn-success">
+        <button type="button" onclick="processCreate('${pageContext.request.contextPath}')" class="btn btn-success">
             Create
         </button>
     </form>
@@ -244,7 +244,7 @@
                 </div>
             </div>
         </div>
-        <button type="button" onclick="processSearch('http://localhost:8080',1)" class="btn btn-primary">
+        <button type="button" onclick="processSearch('${pageContext.request.contextPath}',1)" class="btn btn-primary">
             Accept
         </button>
     </form>

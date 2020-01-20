@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,7 +18,7 @@ public class Ship {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private long id;
+    private Integer id;
 
     @Column(name = "name")
     @NotBlank
@@ -32,7 +33,7 @@ public class Ship {
     private ShipType shipType;
 
     @Column(name = "prodDate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date prodDate;
 
     @Column(name = "isUsed")
@@ -63,11 +64,11 @@ public class Ship {
         this.crewSize = crewSize;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -135,11 +136,8 @@ public class Ship {
         this.rating = rating;
     }
 
-    public long getYear() {
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(prodDate);
-
-        return calendar.get(Calendar.YEAR);
+    public boolean isNew() {
+        return getId() == null;
     }
 
     @Override
