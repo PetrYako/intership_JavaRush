@@ -1,14 +1,16 @@
 package com.space.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.space.controller.jackson.LocalDateDeserializer;
+import com.space.controller.jackson.LocalDateSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Objects;
 
 @Entity
@@ -16,9 +18,9 @@ import java.util.Objects;
 public class Ship {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     @NotBlank
@@ -32,9 +34,11 @@ public class Ship {
     @Enumerated(value = EnumType.STRING)
     private ShipType shipType;
 
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     @Column(name = "prodDate")
-    @Temporal(TemporalType.DATE)
-    private Date prodDate;
+    private LocalDate prodDate;
 
     @Column(name = "isUsed")
     @NotNull
@@ -49,12 +53,11 @@ public class Ship {
     private int crewSize;
 
     @Column(name = "rating")
-    @NotNull
     private double rating;
 
     public Ship() {}
 
-    public Ship(Integer id, String name, String planet, ShipType shipType, Date prodDate, double speed, int crewSize) {
+    public Ship(Long id, String name, String planet, ShipType shipType, LocalDate prodDate, double speed, int crewSize) {
         this.id = id;
         this.name = name;
         this.planet = planet;
@@ -64,11 +67,11 @@ public class Ship {
         this.crewSize = crewSize;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -96,11 +99,11 @@ public class Ship {
         this.shipType = shipType;
     }
 
-    public Date getProdDate() {
+    public LocalDate getProdDate() {
         return prodDate;
     }
 
-    public void setProdDate(Date prodDate) {
+    public void setProdDate(LocalDate prodDate) {
         this.prodDate = prodDate;
     }
 

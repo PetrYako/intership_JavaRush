@@ -30,6 +30,11 @@ public class ShipController {
         this.service = service;
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Ship get(@PathVariable long id) {
+        return service.get(id);
+    }
+
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Ship> getAll() {
@@ -44,6 +49,11 @@ public class ShipController {
         return service.getAll(PageRequest.of(pageNumber, pageSize, sort, order.getFieldName()));
     }
 
+    @GetMapping(value = "/count")
+    public long getCount() {
+        return service.count();
+    }
+
     @GetMapping(value = "/count", params = {"pageNumber", "pageSize", "order"})
     public long getCountPagination(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize,
                                    @RequestParam("order") String order) {
@@ -52,13 +62,16 @@ public class ShipController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@Validated Ship ship) {
-        if (ship.isNew()) {
-            service.create(ship);
-        } else {
-            service.update(ship);
+    public void create(@Validated @RequestBody Ship ship) {
+        service.create(ship);
+    }
+
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@PathVariable long id, @Validated @RequestBody Ship ship) {
+        if (ship.getId() != id) {
+            throw new IllegalArgumentException("id isn't consists");
         }
+        service.update(ship);
     }
 
     @DeleteMapping(value = "/{id}")

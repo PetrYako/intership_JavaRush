@@ -25,9 +25,8 @@ function loadContent(root, suffix, currentPage) {
         td3.appendChild(document.createTextNode(shipType));
         tr.appendChild(td3);
         let td4 = document.createElement("td");
-        let date = new Date();
-        date.setTime(objects[i].prodDate);
-        td4.appendChild(document.createTextNode(date.getFullYear().toString()));
+        let date = new Date(objects[i].prodDate);
+        td4.appendChild(document.createTextNode(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay()));
         tr.appendChild(td4);
         let preOwned;
         if (objects[i].isUsed) {
@@ -123,14 +122,14 @@ function processSearch(root, currentPage) {
     let name = document.getElementById("inputName").value;
     let planet = document.getElementById("inputPlanet").value;
     let dateAfter = new Date();
-    let valueAfter = +document.getElementById("inputProdYearAfter").value;
-    let yearAfter = dateAfter.setFullYear(+document.getElementById("inputProdYearAfter").value);
+    let valueAfter = +document.getElementById("inputProdDateAfter").value;
+    let yearAfter = dateAfter.setDate(+document.getElementById("inputProdDateAfter").value);
     if (valueAfter === 0) {
         yearAfter = "";
     }
     let dateBefore = new Date();
-    let valueBefore = +document.getElementById("inputProdYearBefore").value;
-    let yearBefore = dateBefore.setFullYear(+document.getElementById("inputProdYearBefore").value);
+    let valueBefore = +document.getElementById("inputProdDateBefore").value;
+    let yearBefore = dateBefore.setDate(+document.getElementById("inputProdDateBefore").value);
     if (valueBefore === 0) {
         yearBefore = "";
     }
@@ -193,7 +192,7 @@ function processSearch(root, currentPage) {
 
     console.log(limit);
 
-    if (order === "Prod year") {
+    if (order === "Prod date") {
         order = "date";
     }
     sufix += "&order=" + order.toUpperCase();
@@ -282,15 +281,12 @@ function editButtonClick(root, element, id) {
     let date = new Date();
     date.setTime(objectToUpdate.prodDate);
     let yearInput = document.createElement("input");
-    yearInput.setAttribute("type", "number");
-    yearInput.setAttribute("min", "1900");
-    yearInput.setAttribute("max", "3019");
+    yearInput.setAttribute("type", "date");
     yearInput.setAttribute("size", "4");
     yearInput.setAttribute("style", "font-family:monospace");
     yearInput.setAttribute("step", "1");
     yearInput.setAttribute("class", "form-control");
     yearInput.setAttribute("id", "updateProdDate" + objectToUpdate.id);
-    yearInput.setAttribute("value", "" + date.getFullYear());
     td4.appendChild(yearInput);
     tr.appendChild(td4);
 
@@ -370,9 +366,7 @@ function sendUpdate(root, id) {
     body.name = document.getElementById("updateName" + id).value;
     body.planet = document.getElementById("updatePlanet" + id).value;
     body.shipType = document.getElementById("updateShipType" + id).value.toUpperCase();
-    let date = new Date();
-    date.setFullYear(+document.getElementById("updateProdDate" + id).value);
-    body.prodDate = date.getTime();
+    body.prodDate = document.getElementById("updateProdDate" + id).value;
     let isUsed = document.getElementById("updateIsUsed" + id).value;
     body.isUsed = isUsed !== "new";
     body.speed = document.getElementById("updateSpeed" + id).value;
@@ -396,9 +390,7 @@ function processCreate(root) {
     body.name = document.getElementById("inputNameNew").value;
     body.planet = document.getElementById("inputPlanetNew").value;
     body.shipType = document.getElementById("inputShipTypeNew").value.toUpperCase();
-    let date = new Date();
-    date.setFullYear(+document.getElementById("inputProdYearNew").value);
-    body.prodDate = date.getTime();
+    body.prodDate = document.getElementById("inputProdDateNew").value;
     if (document.getElementById("inlineRadioNew1").checked) {
         body.isUsed = true;
     } else if (document.getElementById("inlineRadioNew2").checked) {
@@ -412,7 +404,7 @@ function processCreate(root) {
         document.getElementById("inputNameNew").value = "";
         document.getElementById("inputPlanetNew").value = "";
         document.getElementById("inputShipTypeNew").value = "Transport";
-        document.getElementById("inputProdYearNew").value = "";
+        document.getElementById("inputProdDateNew").value = "";
         if (document.getElementById("inlineRadioNew2").checked) {
             document.getElementById("inlineRadioNew2").checked = false;
             document.getElementById("inlineRadioNew1").checked = true;

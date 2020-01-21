@@ -32,11 +32,15 @@ public class ShipService {
         repository.deleteById(id);
     }
 
-    public void create(Ship ship) {
-        repository.save(ship);
+    public Ship create(Ship ship) {
+        return repository.save(ship);
     }
 
-    public void update(Ship ship) {
-        repository.save(ship);
+    public Ship update(Ship ship) {
+        return repository.save(ship);
+    }
+
+    public Ship get(long id) {
+        return repository.findById(id).orElse(null);
     }
 }

@@ -49,7 +49,7 @@
                 class="form-control-sm">
             <option selected>Id</option>
             <option>Speed</option>
-            <option>Prod year</option>
+            <option>Prod date</option>
             <option>Rating</option>
         </select>
 
@@ -73,7 +73,7 @@
             <th scope="col">Name</th>
             <th scope="col">Planet</th>
             <th scope="col">Ship type</th>
-            <th scope="col">Prod year</th>
+            <th scope="col">Prod date</th>
             <th scope="col">Pre-owned</th>
             <th scope="col">Max speed</th>
             <th scope="col">Crew size</th>
@@ -110,7 +110,7 @@
             <div class="form-group col-md-3" style="padding: 0px 10px">
                 <label>Prod year</label>
                 <div class="form-row">
-                        <input type="number" min="0" class="form-control" id="inputProdYearNew">
+                        <input type="date" class="form-control" id="inputProdDateNew">
                 </div>
             </div>
             <div class="form-group col-md-3" style="padding: 0px 10px">
@@ -170,13 +170,13 @@
         <div class="form-row">
 
             <div class="form-group col-md-3" style="padding: 0px 10px">
-                <label>Prod year between</label>
+                <label>Prod date between</label>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <input type="number" min="0" class="form-control" id="inputProdYearAfter">
+                        <input type="date" class="form-control" id="inputProdDateAfter">
                     </div>
                     <div class="form-group col-md-6">
-                        <input type="number" min="0" class="form-control" id="inputProdYearBefore">
+                        <input type="date" class="form-control" id="inputProdDateBefore">
                     </div>
                 </div>
             </div>
