@@ -11,6 +11,6 @@ The following functions are made:
 Used the next technologies:
 1. Maven (for project assembly);
 2. Tomcat 9 (for start servise);
-3. Spring;
+3. Hibernate (ORM);
 4. Spring Data JPA;
 5. MySQL (Database).
