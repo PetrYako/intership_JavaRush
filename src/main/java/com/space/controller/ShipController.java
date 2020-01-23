@@ -68,10 +68,7 @@ public class ShipController {
 
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@PathVariable long id, @Validated @RequestBody Ship ship) {
-        if (ship.getId() != id) {
-            throw new IllegalArgumentException("id isn't consists");
-        }
-        service.update(ship);
+        service.update(id, ship);
     }
 
     @DeleteMapping(value = "/{id}")

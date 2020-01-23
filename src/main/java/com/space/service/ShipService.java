@@ -2,6 +2,7 @@ package com.space.service;
 
 import com.space.model.Ship;
 import com.space.repository.ShipRepository;
+import com.space.util.ShipUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import static com.space.util.ShipUtils.countRating;
 
 @Service
 public class ShipService {
@@ -33,10 +36,13 @@ public class ShipService {
     }
 
     public Ship create(Ship ship) {
+        ship.setRating(countRating(ship));
         return repository.save(ship);
     }
 
-    public Ship update(Ship ship) {
+    public Ship update(long id, Ship ship) {
+        ship.setId(id);
+        ship.setRating(countRating(ship));
         return repository.save(ship);
     }
 

@@ -26,7 +26,7 @@ function loadContent(root, suffix, currentPage) {
         tr.appendChild(td3);
         let td4 = document.createElement("td");
         let date = new Date(objects[i].prodDate);
-        td4.appendChild(document.createTextNode(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay()));
+        td4.appendChild(document.createTextNode(date.getFullYear() + "-" + ('0' +  (date.getMonth() + 1)).slice(-2) + "-" + ('0' + date.getDate()).slice(-2)));
         tr.appendChild(td4);
         let preOwned;
         if (objects[i].isUsed) {
@@ -278,14 +278,13 @@ function editButtonClick(root, element, id) {
     tr.appendChild(td3);
 
     let td4 = document.createElement("td");
-    let date = new Date();
-    date.setTime(objectToUpdate.prodDate);
+    let date = new Date(objectToUpdate.prodDate);
     let yearInput = document.createElement("input");
     yearInput.setAttribute("type", "date");
-    yearInput.setAttribute("size", "4");
     yearInput.setAttribute("style", "font-family:monospace");
     yearInput.setAttribute("step", "1");
     yearInput.setAttribute("class", "form-control");
+    yearInput.setAttribute("value", date.getFullYear() + "-" + ('0' +  (date.getMonth() + 1)).slice(-2) + "-" + ('0' + date.getDate()).slice(-2));
     yearInput.setAttribute("id", "updateProdDate" + objectToUpdate.id);
     td4.appendChild(yearInput);
     tr.appendChild(td4);
