@@ -1,6 +1,7 @@
 package com.space.controller;
 
 import com.space.model.Ship;
+import com.space.model.ShipType;
 import com.space.service.ShipService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/ships")
@@ -35,29 +39,28 @@ public class ShipController {
         return service.get(id);
     }
 
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Ship> getAll() {
-       return service.getAll(PageRequest.of(0, 3, Sort.by("id")));
-    }
-
     @GetMapping(params = {"pageNumber", "pageSize", "order"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Ship> getAllPagination(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize,
-                                       @RequestParam("order") ShipOrder order) {
+    public List<Ship> getAllWithCriteria(@RequestParam("pageNumber")  Optional<Integer> pageNumber,  @RequestParam("pageSize")     Optional<Integer> pageSize,
+                                         @RequestParam("order")       Optional<ShipOrder> order,     @RequestParam("name")         Optional<String> name,
+                                         @RequestParam("planet")      Optional<String> planet,       @RequestParam("after")        Optional<LocalDate> after,
+                                         @RequestParam("before")      Optional<LocalDate> before,    @RequestParam("minSpeed")     Optional<Double> minSpeed,
+                                         @RequestParam("maxSpeed")    Optional<Double> maxSpeed,     @RequestParam("minCrewSize")  Optional<Integer> minCrewSize,
+                                         @RequestParam("maxCrewSize") Optional<Integer> maxCrewSize, @RequestParam("minRating")    Optional<Double> minRating,
+                                         @RequestParam("maxRating")   Optional<Double> maxRating,    @RequestParam("shipType")     Optional<ShipType> shipType,
+                                         @RequestParam("isUsed")      Optional<Boolean> isUsed) {
 
-        Sort.Direction sort = order.getFieldName().equals("id") ? Sort.Direction.ASC : Sort.Direction.DESC;
-        return service.getAll(PageRequest.of(pageNumber, pageSize, sort, order.getFieldName()));
+        Pageable pageable;
+        if (!pageNumber.isPresent() && !order.isPresent() && !pageSize.isPresent()) {
+            pageable = PageRequest.of(0, 3, Sort.Direction.ASC, "id");
+            return service.getAllWithCriteria(pageable, name, planet, after, before, minSpeed, maxSpeed, minCrewSize, maxCrewSize, minRating, maxRating, shipType, isUsed);
+        }
+        Sort.Direction sort = order.get().getFieldName().equals("id") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        pageable = PageRequest.of(pageNumber.get(), pageSize.get(), sort, order.get().getFieldName());
+        return service.getAllWithCriteria(pageable, name, planet, after, before, minSpeed, maxSpeed, minCrewSize, maxCrewSize, minRating, maxRating, shipType, isUsed);
     }
 
     @GetMapping(value = "/count")
-    public long getCount() {
-        return service.count();
-    }
-
-    @GetMapping(value = "/count", params = {"pageNumber", "pageSize", "order"})
-    public long getCountPagination(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize,
-                                   @RequestParam("order") String order) {
-
+    public long getCountWithCriteria(@RequestParam Map<String, String> parameters) {
         return service.count();
     }
 
