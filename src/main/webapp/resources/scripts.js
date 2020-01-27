@@ -372,7 +372,7 @@ function sendUpdate(root, id) {
     body.crewSize = document.getElementById("updateCrewSize" + id).value;
 
     post(root + "/rest/ships/" + id, JSON.stringify(body));
-    loadContent(root, "", 1);
+    loadContent(root, "?pageNumber=0&pageSize=3&order=ID", 1);
 }
 
 function clickCreate() {
