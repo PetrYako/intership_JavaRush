@@ -20,6 +20,5 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public interface ShipRepository extends PagingAndSortingRepository<Ship, Long>, JpaSpecificationExecutor<Ship> {
 }
